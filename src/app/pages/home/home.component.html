@@ -1,0 +1,7 @@
+<h3>MyPictures - Accueil</h3>
+<p>Bienvenue <u>{{ username }}</u> !</p>
+
+<div *ngFor="let img of user.images">
+  <img src="http://localhost:3003/api/images/{{img._id}}">
+</div>
+
