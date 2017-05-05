@@ -19,6 +19,8 @@ import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import { User } from './models/user.model';
 import { UploadComponent } from "./pages/upload/upload.component";
+import {AdminComponent} from "./pages/admin/admin.component";
+import {UsersComponent} from "./pages/admin/users.component";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { UploadComponent } from "./pages/upload/upload.component";
     ProfileComponent,
     UploadComponent,
     FileSelectDirective,
-    FileDropDirective
+    FileDropDirective,
+    AdminComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit{
     this.userService.getUser(user.username, user.token)
       .subscribe(data => {
         this.user.images = data.user.images;
-        console.log(data.user);
+        console.log(data.user.images);
       });
 
   }

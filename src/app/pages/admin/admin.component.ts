@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 //service pour login
 import { UserService } from "../../services/user.service";
-import { AdvisorService } from "../../services/advisor.service";
+
 //user
 import { User } from "../../models/user.model";
 
@@ -16,16 +16,11 @@ import { User } from "../../models/user.model";
 export class AdminComponent {
   error = "";
   success = "";
-  history: Object;
-  advisors = null;
-  customers = null;
   users = null;
   notAssign = null;
-  currentAdv : string;
 
   constructor(
     private router: Router,
-    private advisorService: AdvisorService,
     private userService: UserService,
     private admin: User
   ){
@@ -35,46 +30,39 @@ export class AdminComponent {
     admin.token = loggedUser && loggedUser.token;
     admin.username = loggedUser && loggedUser.username;
     //get user
-    this.userService.getAll(admin.token)
+    this.userService.getAllUsers(admin.token)
       .subscribe(data => {
-        this.advisors = data.advisors;
-        this.customers = data.customers;
-      });
-  }
-
-  onClickShowCustomers(adviseId){
-    this.currentAdv = adviseId;
-    this.users = this.advisors.find(e => e._id == adviseId).advised;
-    var usersArray = this.users;
-    this.notAssign = this.customers.filter(function(e){
-      for (let i=0;i<usersArray.length; i++){
-        if(usersArray[i]._id == e._id ){
-          return false;
+        if(data.status === 200) {
+          this.users = data.users;
         }
-      }
-      return true;
-    });
-  }
-
-  onCLickAction(action: string, userid: string){
-    this.advisorService.actionCustomerAdvisor(action, this.currentAdv, userid, this.admin.token)
-      .subscribe(result => {
-        if(result && result.status === 200){
-          this.success = "L'action a bien été effectué";
-          //refresh customers
-          if(action === "add"){
-            this.notAssign = this.notAssign.filter(e => e._id != userid);
-            this.users = result.advisor.advised;
-          } else {
-            let user = this.users.filter(e => e._id == userid);
-            this.users = result.advisor.advised;
-            this.notAssign.push(user[0]);
-          }
+        else {
+          this.error = "Un problème est survenu lors de la communication avec le serveur. Veuillez rééssayer."
         }
       },
       error => {
-        this.error = "Action impossible";
-      })
+        this.error = "Un problème est survenu lors de la communication avec le serveur. Veuillez rééssayer."
+      });
+  }
+
+  onClickAction(action: string, userid: string){
+      switch(action) {
+        case "delete":
+          this.userService.deleteUser(userid, this.admin.token)
+              .subscribe(result => {
+                  if (result && result.status === 200) {
+                    this.success = "L'action a bien été effectuée";
+                    //refresh users
+                    this.users = this.users.filter(e => e._id != userid);
+                  }
+                },
+                error => {
+                  this.error = "Action impossible";
+                });
+          break;
+        case "pictures":
+            this.router.navigate(['/picture', userid]);
+          break;
+      }
   }
 
 

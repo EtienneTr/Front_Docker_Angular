@@ -42,48 +42,29 @@ export class UserService {
     return this.http.put(createUrl, bodyString, options).map((response: Response) => response.json());
   }
 
-  //Images
-  getImage(imageID: string, token: string){
-    let createUrl = this.baseUrl + 'images/' + imageID;
-    let headers    = new Headers({ 'Content-Type': 'application/json', 'x-access-token': token });
-    let options    = new RequestOptions({ headers: headers });
-
-    return this.http.get(createUrl, options).map((response: Response) => response.json());
-  }
-
-  uploadImageOld(imageF: File, token: string){
-    let createUrl = this.baseUrl + 'images';
-    let bodyString = JSON.stringify({picture: imageF});
-    let headers    = new Headers({ 'Content-Type': 'application/json', 'x-access-token': token });
-    let options    = new RequestOptions({ headers: headers });
-
-    return this.http.post(createUrl, bodyString, options).map((response: Response) => response.json());
-  }
-
-  uploadImage(files: File[], token: string) {
-    return Observable.create(observer => {
-      let formData: FormData = new FormData(),
-        xhr: XMLHttpRequest = new XMLHttpRequest();
-
-      for (let i = 0; i < files.length; i++) {
-        formData.append("uploads[]", files[i], files[i].name);
-      }
-
-      let createUrl = this.baseUrl + 'images';
-
-      xhr.open('POST', createUrl, true);
-      xhr.setRequestHeader("x-access-token", token);
-      xhr.send(formData);
-    });
-  }
-
   //Admin
-  getAllImage(token: string){
+  getAllUsers(token: string){
     let getUrl = this.baseUrl + 'admin/all';
     let headers    = new Headers({ 'Content-Type': 'application/json', 'x-access-token': token });
     let options    = new RequestOptions({ headers: headers });
 
     return this.http.get(getUrl, options).map((response: Response) => response.json());
+  }
+
+  deleteUser(userID: string, token: string){
+    let getUrl = this.baseUrl + 'admin/user/' + userID;
+    let headers    = new Headers({ 'Content-Type': 'application/json', 'x-access-token': token });
+    let options    = new RequestOptions({ headers: headers });
+
+    return this.http.delete(getUrl, options).map((response: Response) => response.json());
+  }
+
+  deleteImage(imageID: string, token: string){
+    let getUrl = this.baseUrl + 'admin/image/' + imageID;
+    let headers    = new Headers({ 'Content-Type': 'application/json', 'x-access-token': token });
+    let options    = new RequestOptions({ headers: headers });
+
+    return this.http.delete(getUrl, options).map((response: Response) => response.json());
   }
 
 }
