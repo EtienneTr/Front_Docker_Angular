@@ -1,4 +1,4 @@
-FROM debian:unstable
+FROM debian:latest
 
 MAINTAINER Etienne Tr
 
@@ -6,9 +6,6 @@ MAINTAINER Etienne Tr
 RUN apt-get update
 
 RUN apt-get install -y nodejs npm git
-
-# symlink node to nodejs
-RUN ln /usr/bin/nodejs /usr/bin/node
 
 COPY ./entrypoint.sh /entrypoint.sh
 
