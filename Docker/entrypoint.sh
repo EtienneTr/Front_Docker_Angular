@@ -1,3 +1,4 @@
+#!/bin/bash
 cd /tmp
 
 #Clone or pull if exist (auto update on restart container)
