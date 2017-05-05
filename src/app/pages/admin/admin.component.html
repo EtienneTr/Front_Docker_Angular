@@ -9,6 +9,7 @@
     <tr>
       <th>Nom</th>
       <th>Prénom</th>
+      <th>Identifiant</th>
       <th>E-mail</th>
       <th colspan="2">Action</th>
     </tr>
@@ -16,6 +17,7 @@
     <tr *ngFor="let user of users" >
       <td>{{ user.firstname }}</td>
       <td>{{ user.lastname }}</td>
+      <td>{{ user.username }}</td>
       <td>{{ user.mail}}</td>
       <td><a class="btn btn-danger" (click)="onClickAction('delete', user._id)">Supprimer</a></td>
       <td><a class="btn btn-success" (click)="onClickAction('pictures', user.username)">Voir images</a></td>

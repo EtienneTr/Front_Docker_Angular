@@ -10,27 +10,41 @@ import {User} from "../../models/user.model";
   styleUrls: ['home.component.css'],
   templateUrl: 'home.component.html'
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent {
   public token: string;
   public username: string;
+  success = null;
+  error = null;
+  user = null;
 
-  constructor(private authservice: AuthService, public userService: UserService, protected user: User){
+  constructor(private authservice: AuthService, public userService: UserService){
     var loggedUser = JSON.parse(localStorage.getItem("loggeduser"));
 
-    user.token = loggedUser && loggedUser.token;
-    user.username = loggedUser && loggedUser.username;
-    user.role = loggedUser && loggedUser.role;
+    this.user = new User();
+    this.user.token = loggedUser && loggedUser.token;
+    this.user.username = loggedUser && loggedUser.username;
+    this.user.role = loggedUser && loggedUser.role;
 
     //get user
-    this.userService.getUser(user.username, user.token)
+    this.userService.getUser(this.user.username, this.user.token)
       .subscribe(data => {
         this.user.images = data.user.images;
-        console.log(data.user.images);
       });
 
   }
 
-  ngOnInit(){
-
+  onClickAction(imageid){
+    this.userService.deleteImage(imageid, this.user.token)
+      .subscribe(result => {
+          if(result && result.status === 200){
+            this.success = "L'action a bien été effectué";
+            this.user.images = this.user.images.filter(e => e._id != imageid);
+          } else {
+            this.error = "Impossible d'effectuer cette action";
+          }
+        },
+        error =>{
+          this.error = "Impossible d'effectuer cette action";
+        })
   }
 }
