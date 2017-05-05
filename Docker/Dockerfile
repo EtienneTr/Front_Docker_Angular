@@ -5,7 +5,10 @@ MAINTAINER Etienne Tr
 #NODE
 RUN apt-get update
 
-RUN apt-get install -y nodejs npm git
+#git & node
+RUN apt-get update \
+	&& apt-get -y install git \
+	&& apt-get -y install curl && curl -sL https://deb.nodesource.com/setup_6.x | bash - && apt-get install -y nodejs
 
 COPY ./entrypoint.sh /entrypoint.sh
 
