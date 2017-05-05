@@ -12,7 +12,6 @@ RUN apt-get update \
 
 COPY ./entrypoint.sh /entrypoint.sh
 
-ENV NODE_ENV=production
 ENV PORT=3000
 
 EXPOSE 3000
