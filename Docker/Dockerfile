@@ -1,9 +1,6 @@
-FROM debian:latest
+FROM ubuntu:14.04
 
 MAINTAINER Etienne Tr
-
-#NODE
-RUN apt-get update
 
 #git & node
 RUN apt-get update \
