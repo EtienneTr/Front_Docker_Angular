@@ -7,3 +7,5 @@ if cd Front_Docker_Angular; then git pull; else git clone https://github.com/Eti
 cd Front_Docker_Angular
 npm install
 npm start
+
+wait
